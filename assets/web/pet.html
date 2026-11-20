@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline'; connect-src 'self' blob:; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; media-src 'self' blob:; object-src 'none'; base-uri 'none'">
+<title>Nova</title>
+<style>
+  html, body {
+    margin: 0; padding: 0; width: 100%; height: 100%;
+    background: transparent; overflow: hidden;
+    -webkit-user-select: none; user-select: none;
+    font-family: "Segoe UI", system-ui, sans-serif;
+  }
+  #stage { position: relative; width: 100%; height: 100%; }
+
+  /* The animated sprite — the character herself. */
+  #pet {
+    position: absolute; left: 50%; top: 0;
+    width: 256px; height: 256px;
+    transform: translateX(-50%);
+    image-rendering: pixelated;
+  }
+
+  /* Eye toggle: OFF = normal (she does not see the screen), ON = she watches. */
+  #eye {
+    position: absolute; right: 8px; top: 8px; width: 28px; height: 28px;
+    border-radius: 50%; border: 1px solid rgba(0, 229, 255, .35);
+    background: rgba(13, 20, 32, .55); color: #8fa4b8;
+    font-size: 15px; line-height: 1; cursor: pointer;
+  }
+  #eye.on { color: #00e5ff; border-color: #00e5ff; background: rgba(0,229,255,.15); }
+
+  /* Options row — quick things to say / do, like the old mate engine. */
+  #options {
+    position: absolute; left: 8px; right: 8px; top: 260px;
+    display: flex; flex-wrap: wrap; gap: 5px; justify-content: center;
+    min-height: 26px;
+  }
+  #options button {
+    padding: 3px 9px; border-radius: 11px;
+    border: 1px solid rgba(0, 229, 255, .42);
+    background: rgba(13, 20, 32, .72); color: #bfe9f5;
+    font: inherit; font-size: 10.5px; cursor: pointer;
+    text-shadow: 0 1px 2px #000;
+  }
+  #options button:hover { background: rgba(0,229,255,.22); color: #fff; }
+
+  /* Her message bubble — only her final words, no thinking shown. */
+  #bubble {
+    position: absolute; left: 10px; right: 10px; top: 292px;
+    max-height: 112px; overflow-y: auto;
+    padding: 9px 12px; box-sizing: border-box;
+    border: 1px solid rgba(0, 229, 255, .38); border-radius: 13px;
+    background: rgba(13, 20, 32, .84);
+    color: #eaf6ff; font-size: 12.5px; line-height: 1.4;
+    white-space: pre-wrap; word-break: break-word;
+    scrollbar-width: none;
+  }
+  #bubble::-webkit-scrollbar { display: none; }
+  #bubble:after {
+    content: ""; position: absolute; top: -7px; left: 46%;
+    border-left: 7px solid transparent; border-right: 7px solid transparent;
+    border-bottom: 7px solid rgba(0, 229, 255, .38);
+  }
+  #bubble:empty { display: none; }
+
+  /* Conversation history — final lines only, transparent, no panel. */
+  #chat {
+    position: absolute; left: 10px; right: 10px; top: 412px; bottom: 48px;
+    overflow-y: auto; overflow-x: hidden;
+    padding: 2px; box-sizing: border-box;
+    background: transparent; scrollbar-width: none;
+  }
+  #chat::-webkit-scrollbar { display: none; }
+  .row { margin: 0 0 7px; font-size: 11px; line-height: 1.35; }
+  .row.user { text-align: right; }
+  .row.user .text { color: #9fb2c4; text-shadow: 0 1px 3px #000, 0 0 6px #000; }
+  .row.nova .text { color: #cfe9f7; text-shadow: 0 1px 3px #000, 0 0 6px #000; }
+  .row .text { white-space: pre-wrap; word-break: break-word; }
+
+  /* Ask her anything — she acts on it and can learn from it. */
+  #composer {
+    position: absolute; left: 8px; right: 8px; bottom: 6px;
+    display: flex; gap: 5px; align-items: center;
+  }
+  #composer input {
+    flex: 1; min-width: 0; height: 34px; padding: 0 12px;
+    border-radius: 17px; border: 1px solid rgba(0, 229, 255, .5);
+    background: rgba(13, 20, 32, .94); color: #eaf6ff;
+    font: inherit; font-size: 12.5px; outline: none;
+  }
+  #composer input::placeholder { color: #7f93a8; }
+  #composer button {
+    width: 34px; height: 34px; flex: 0 0 34px; border-radius: 50%;
+    border: 1px solid rgba(0, 229, 255, .5);
+    background: rgba(0, 229, 255, .16); color: #00e5ff;
+    font-size: 15px; cursor: pointer;
+  }
+  #composer button:hover { background: rgba(0, 229, 255, .3); }
+</style>
+</head>
+<body>
+  <div id="stage">
+    <div id="pet" role="img" aria-label="Nova"></div>
+    <button id="eye" title="Screen watching: OFF — normal mode">◎</button>
+    <div id="options"></div>
+    <div id="bubble"></div>
+    <div id="chat"></div>
+    <div id="composer">
+      <input id="msg" type="text" placeholder="Ask Nova anything…" autocomplete="off" spellcheck="false">
+      <button id="send" title="Send">&#10148;</button>
+    </div>
+  </div>
+  <script type="module" src="/pet.js"></script>
+</body>
+</html>

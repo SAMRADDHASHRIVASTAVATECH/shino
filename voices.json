@@ -1,0 +1,20 @@
+{
+  "active": "Impulse",
+  "slots": {
+    "Impulse": {
+      "kokoro": "af_heart",
+      "label": "Nova - bright & impulsive",
+      "style": "fast, dramatic, feeling-first"
+    },
+    "Reason": {
+      "kokoro": "af_bella",
+      "label": "Nova - calm & thoughtful",
+      "style": "soft, steady, reflective"
+    },
+    "Robo": {
+      "kokoro": "am_michael",
+      "label": "custom voice - added by owner",
+      "style": "custom"
+    }
+  }
+}
